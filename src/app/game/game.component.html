@@ -2,6 +2,8 @@
   generelles Styling: -->
 <div class="field">
   <div class="card-stack">
+    <!-- Hier muss jetzt auch auf die Reihenfolge der Bilder geachtet werden, da sie übermalt 
+    werden, ähnlich wie im Canvas! -->
     
     <!-- Die folgende for-Schleife wird das img Tag 5 mal wiederholt, da das Array 5 Werte 
     besitzt. c nimmt als Wert bei jeder Iteration den Wert des i-ten Array Elements an. Durch 
@@ -21,12 +23,18 @@
      style="right: 30px;" 
      class="top-card"
      src="assets/img/cards/card_cover.png" >
+    <!-- Zeige die gespielten Karten an: -->
+    <img *ngFor="let card of game.playedCards"
+     src="assets/img/cards/{{ card }}.png"
+     class="played-card">
     <!-- An der gleichen Position wie die oberste Karte, soll die umgedrehte Karte angezeigt werden, 
       sobald die Eigenschaft pickCardAnimation true ist. Die kann mit *ngIf gemacht werden: -->
     <img (click)="takeCard()"
      *ngIf="pickCardAnimation"
      style="right: 30px;" 
-     class="top-card pick-card"
-     src="assets/img/cards/spade_1.png" >
+     class="pick-card"
+     src="assets/img/cards/{{ currentCard }}.png" > <!-- Überall im normalem HTML Code kann die {{}} Syntax
+      verwendet werden, nur im Angularteil des HTML Code ist diese Syntax nicht möglich! -->
+    
   </div>
 </div>
