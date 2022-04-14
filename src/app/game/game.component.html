@@ -1,0 +1,32 @@
+<!-- Genereller Angular Tipp: Umschließe jede Komponente mit einem div Tag für
+  generelles Styling: -->
+<div class="field">
+  <div class="card-stack">
+    
+    <!-- Die folgende for-Schleife wird das img Tag 5 mal wiederholt, da das Array 5 Werte 
+    besitzt. c nimmt als Wert bei jeder Iteration den Wert des i-ten Array Elements an. Durch 
+    den Zusatz ; let i = index; wird i als der Iterator der for-Schleife definiert, d.h. i nimmt
+    die Werte 0,1,2,3,4 bei der Iteration an. Das Property Binding ngStyle wird verwendet, um 
+    inline CSS Styles mit dynamischen Werten für ein Tag zu definieren unter Benutzung der Syntax
+    siehe unten. Möchte man mehrere Stylings hinzufügen, kann man sie durch Komma getrennt 
+    nacheinander in die {} schreiben. Die Einheit einer einer CSS Eigenschaft wird hier durch 
+    .Einheit festgelegt und nicht dadurch, dass man sie an den dynamischen Wert hängt:     -->
+    <img *ngFor="let c of [1,2,3,4,5]; let i = index;"
+     [ngStyle]="{'right.px': i*6}" 
+     src="assets/img/cards/card_cover.png">
+    <!-- Die letzte Karte soll separat gestyled werden mit dem undynamischen Standard Inline
+    CSS. Zusätzlich bekommt sie eine Onklick Funktion, die das Attribut pickCardAnimation der 
+    Game Komponenten Instanz auf true setzt. -->
+    <img (click)="takeCard()"
+     style="right: 30px;" 
+     class="top-card"
+     src="assets/img/cards/card_cover.png" >
+    <!-- An der gleichen Position wie die oberste Karte, soll die umgedrehte Karte angezeigt werden, 
+      sobald die Eigenschaft pickCardAnimation true ist. Die kann mit *ngIf gemacht werden: -->
+    <img (click)="takeCard()"
+     *ngIf="pickCardAnimation"
+     style="right: 30px;" 
+     class="top-card pick-card"
+     src="assets/img/cards/spade_1.png" >
+  </div>
+</div>

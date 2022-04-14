@@ -1,0 +1,31 @@
+.start-screen {
+  background-color: #404040;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%; // Damit kein Scrollbalken da ist!
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 100vh;
+  }
+}
+
+.start-lable-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 50px;
+  display: flex;
+  justify-content: center;
+  img {
+    width: 40vw;
+    height: auto; // Der Wert auto passt die Höhe des Bildes so an, dass das Bild 
+    // bei gegebener width nicht verzerrt wird.
+    &:hover {
+      filter: brightness(1.25); // Mit diesem CSS Filter kann die Helligkeit eines 
+      // beliebigen Objekts verändert werden.
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+.field {
+  width: 100%;
+  height: 100vh;
+  max-width: 100%;
+  background-image: url('/assets/img/board.jpg'); // Hier wichtig ein / vor den 
+  // Pfad zu machen und kein ./ oder garnichts! Die rcihtige URL zu finden kann 
+  // manchmal schwierig sein, probiere dann alles aus / , ./ und nichts vor den 
+  // URL Pfad zu schreiben.
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.card-stack {
+  position: relative;
+  img{
+    position: absolute;
+    width: 120px;
+    height: auto;
+  }
+}
+
+.top-card {
+  cursor: pointer;
+  transition: all 125ms ease-in-out;
+  &:hover {
+    transform: scale(1.1) translateY(-10px);
+  }
+}
+
+.pick-card {
+  transition: all 125ms ease-in-out;
+  animation: pick-card-animation 2s ease-in-out;
+  // Nachdem die Animation beendet wurde, wird das gesamte Styling das innerhalb des
+  // @keyframes definiert wurde wieder entfernt. Soll der Endzustand beibehalten werden,
+  // muss er hier nochmal explizit hinzugefügt werden: 
+  transform: scale(1.3) translateX(120px) translateY(-180px);
+  // CSS awaited nicht die Animation, sondern wird einfach weiter gelesen, aber die Stylings
+  // der Animation haben eine höhere Specificity, als die außerhalb der Animation, daher wird 
+  // das Styling der Animation durch die obige Zeile nicht überschrieben! 
+}
+
+
+@keyframes pick-card-animation  {
+  // In @keyframes kann mit from {...} to {...} gearbeitet werden oder mit
+  // Prozentzahlen, die angeben, wie weit die Animation schon abgeschlossen 
+  // wurde:
+  0% { // Beginne die Animation mit dem Styling:
+    transform: scale(1); // Achtung: In einer Animation, darf man kein !important
+    // verwenden!
+  }
+  30% { // Nachdem 30% der Animationszeit durchlaufen wurden erreiche das 
+    // folgende Styling:
+    transform: scale(1.7);
+  }
+  50% {
+    transform: scale(1.7);
+  }
+  100% {
+    transform: scale(1.3) translateX(120px) translateY(-180px);
+  }
+}
+
+
