@@ -1,0 +1,17 @@
+<!-- Der folgende Code wurde von Angular Material kopiert und abgeändert: -->
+<h1 mat-dialog-title>Add new Player</h1>
+<div mat-dialog-content>
+  <p>Please enter the name of the new player.</p>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="name"> <!-- Mit ngModel hat man die Möglichkeit 
+    eine Variable an ein Inputfeld zu binden. Die Syntax [()] ist ein sogenanntes 
+    two-way Binding, d.h. wenn sich das Attribut name ändert, ändert sich die Variable 
+    name im input Tag (im HTML Template) und wenn sich das name in input Tag ändert,
+    ändert sich umgekehrt auch das Attribut name der Komponenteninstanz -->
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="" cdkFocusInitial>Ok</button>
+</div>

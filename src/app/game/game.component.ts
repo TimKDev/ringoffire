@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
+import {MatDialog} from '@angular/material/dialog';
+import { AddPlayerDialogComponent } from '../add-player-dialog/add-player-dialog.component';
 
 @Component({
   selector: 'app-game',
@@ -12,7 +14,7 @@ export class GameComponent implements OnInit {
   currentCard: any = '';
   game!: Game;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.newGame();
@@ -38,4 +40,16 @@ export class GameComponent implements OnInit {
     }, 1500);
   }
 
+  // Die folgende Funktion wurde von Angular Material kopiert:
+  openDialog(): void {
+    // Die Komponente die im Folgenden an open übergeben wird, wird im Dialogfenster
+    // angezeigt, dass sich öffnet, sobald die openDialog Funktion ausgeführt wird. 
+    // Man sieht, dass man die Obejkte die man von Angular Material kopiert zum Teil 
+    // auch wirklich verstehen muss!
+    const dialogRef = this.dialog.open(AddPlayerDialogComponent);
+    
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 }

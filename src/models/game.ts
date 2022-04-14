@@ -2,7 +2,7 @@
 // kann auch ganz normale TS Dateien erstellen und über export in den Komponenten 
 // verwenden:
 export class Game {
-  public players: string[] = [];
+  public players: string[] = ['Hans', 'Peter', 'Freddy'];
   public stack: string[] = [];
   public playedCards: string[] = [];
   public currentplayer: number = 0;
