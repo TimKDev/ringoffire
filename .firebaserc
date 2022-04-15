@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ring-of-fire-bc921": {
+      "hosting": {
+        "ringoffire": [
+          "ring-of-fire-bc921"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ring-of-fire-bc921"
+  }
+}

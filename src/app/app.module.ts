@@ -19,6 +19,11 @@ import {MatInputModule} from '@angular/material/input';
 import { GameInfoComponent } from './game-info/game-info.component';
 import {MatCardModule} from '@angular/material/card';
 
+// Die folgenden beiden Imports sind notwendig, damit Firebase verwendet werden kann.
+// Für genaue Anleitung siehe https://github.com/angular/angularfire/blob/master/docs/install-and-setup.md
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from '../environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +43,9 @@ import {MatCardModule} from '@angular/material/card';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    // Der folgende Import ist notwendig, um Firebase verwenden zu können:
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [],
   bootstrap: [AppComponent]

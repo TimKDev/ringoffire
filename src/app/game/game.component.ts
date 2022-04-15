@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AddPlayerDialogComponent } from '../add-player-dialog/add-player-dialog.component';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-game',
@@ -14,10 +15,22 @@ export class GameComponent implements OnInit {
   currentCard: any = '';
   game!: Game;
 
-  constructor(public dialog: MatDialog) { }
+  // Der Service MatDialog wird für die eingebundenen Komponenten von Angular 
+  // Material benötigt.
+  // Um auf die Realtime Database von Firebase für unser Projekt zuzugreifen, muss
+  // der Service AngularFirestore über DI eingefügt werden. Siehe Quickstart Guide
+  // https://github.com/angular/angularfire/blob/master/docs/install-and-setup.md
+  // zu Angular Firebase. Dies ist ein Modul was die Verwendung von Firebase innerhalb 
+  // von Angular Apps vereinfacht. Theoretisch kann Firebase aber auch für nicht Angular 
+  // Apps verwendet werden!
+  constructor(public dialog: MatDialog, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
     this.newGame();
+    this.firestore.collection('games').valueChanges().subscribe((game) => {
+      console.log('Game update', game);
+      
+    });
   }
 
   newGame() {
