@@ -1,7 +1,8 @@
 <!-- Man kann den Koponenten Tags natürlich auch ganz normale Attribute übergeben:  -->
 <app-player *ngFor="let player of game.players; let i = index"
+ [playerActive]="i == game.currentPlayer"
  class="player-position"
- [ngStyle]="{'top.px': (i + 1)*120}"
+ [ngStyle]="{'top.px': (i + 1)*90}"
  [name]="player">
 </app-player>
 
@@ -51,6 +52,10 @@
   <mat-icon>add</mat-icon> <!-- Der Name add definiert welches Icon von Material Design dargestellt wird.
   Um andere zu finden gehe auf https://materialdesignicons.com/-->
 </button>
+
+<app-game-info class="pin-bottom"
+ [card]="currentCard">
+</app-game-info>
 
 
 

@@ -30,6 +30,7 @@ export class GameComponent implements OnInit {
     if (this.pickCardAnimation) return;
     this.currentCard = this.game.stack.pop();
     this.pickCardAnimation = true;
+    this.game.currentPlayer = (this.game.currentPlayer + 1)% this.game.players.length; 
     // Die Animation, soll für jede Karte abgespielt werden. Dies funktioniert 
     // natürlich nur flüssig, wenn man während der Zeit der Animation keine Karte 
     // ziehen darf:
@@ -48,8 +49,9 @@ export class GameComponent implements OnInit {
     // auch wirklich verstehen muss!
     const dialogRef = this.dialog.open(AddPlayerDialogComponent);
     
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe(name => {
+      if(!name) return;
+      this.game.players.push(name);
     });
   }
 }

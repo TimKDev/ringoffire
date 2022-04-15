@@ -1,0 +1,7 @@
+<mat-card>
+  <!-- Im Folgenden wird der ? Operator von JS verwendet. Wenn der Boolsche Wert
+  card wahr ist wird title zurückgegeben, sonst der String 'Please pick a card'. 
+  Der ? Operator ist also eine Kurzschreibweise für eine if else Abfrage.-->
+  <mat-card-title>{{ card ? title : 'Please pick a card' }}</mat-card-title>
+  <mat-card-content>{{ card ? description : 'Please click on the card stack to select the next card.' }}</mat-card-content>
+</mat-card>

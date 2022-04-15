@@ -2,10 +2,10 @@
 // kann auch ganz normale TS Dateien erstellen und über export in den Komponenten 
 // verwenden:
 export class Game {
-  public players: string[] = ['Hans', 'Peter', 'Freddy'];
+  public players: string[] = [];
   public stack: string[] = [];
   public playedCards: string[] = [];
-  public currentplayer: number = 0;
+  public currentPlayer: number = 0;
 
   constructor() {
     // Die Konstruktorfunktion wird immer dann aufgerufen, wenn eine neue Instanz 

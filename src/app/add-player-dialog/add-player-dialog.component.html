@@ -13,5 +13,13 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="" cdkFocusInitial>Ok</button>
+  <!-- Der Wert des gebundenen mat-dialog-close Attributs, ist der Wert der aus dem 
+  Inputfenster übernommen wird. Danach kann es in der game.component.ts im subscript 
+  als result weiter verwendet werden.   -->
+  <button mat-button
+   [disabled]="name.length == 0"
+   [mat-dialog-close]="name"
+   cdkFocusInitial>
+    Ok
+  </button>
 </div>
