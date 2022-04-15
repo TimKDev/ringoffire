@@ -6,6 +6,11 @@
   // Pfad zu machen und kein ./ oder garnichts! Die rcihtige URL zu finden kann 
   // manchmal schwierig sein, probiere dann alles aus / , ./ und nichts vor den 
   // URL Pfad zu schreiben.
+  // ########################################################################
+  // Achtung: Der obige Trick funktioniert nur lokal und nicht mehr auf dem FTP Server.
+  // Für den FTP Server muss das / am Anfang wieder entfernt werden! Lösung: Ändere die 
+  // URL nur im dist Ordner. Dafür muss Strg + f verwendet werden, da der Code nicht 
+  // lesbar ist!
   display: flex;
   justify-content: center;
   align-items: center;
