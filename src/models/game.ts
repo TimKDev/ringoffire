@@ -1,5 +1,8 @@
 // Man muss natürlich nicht immer mit Komponenten und Services arbeiten, sondern
 // kann auch ganz normale TS Dateien erstellen und über export in den Komponenten 
+
+import { ActivatedRoute } from "@angular/router";
+
 // verwenden:
 export class Game {
   public players: string[] = [];
@@ -19,6 +22,20 @@ export class Game {
     }
     shuffle(this.stack);
   }
+
+  /**
+   * Converts an Game Instance into a JSON object. Then it can be saved in the 
+   * Firebase Database.
+   */
+  public toJSON() {
+    return {
+      players: this.players,
+      stack: this.stack,
+      playedCards: this.playedCards,
+      currentPlayer: this.currentPlayer 
+    };
+  }
+
 }
 
 /**

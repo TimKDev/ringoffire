@@ -3,6 +3,7 @@ import { Game } from 'src/models/game';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlayerDialogComponent } from '../add-player-dialog/add-player-dialog.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -23,18 +24,50 @@ export class GameComponent implements OnInit {
   // zu Angular Firebase. Dies ist ein Modul was die Verwendung von Firebase innerhalb 
   // von Angular Apps vereinfacht. Theoretisch kann Firebase aber auch für nicht Angular 
   // Apps verwendet werden!
-  constructor(public dialog: MatDialog, private firestore: AngularFirestore) { }
+  constructor(
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private firestore: AngularFirestore
+  ) { }
 
   ngOnInit(): void {
+    // Erstelle ein neues Game:
     this.newGame();
-    this.firestore.collection('games').valueChanges().subscribe((game) => {
-      console.log('Game update', game);
+    // Unter Benutzung des ActivatedRoute Service kann die Variable gameId der URL wie folgt 
+    // ausgelesen werden:
+    this.route.params.subscribe((params) => {
+      // Innerhalb dieser Callbackfunktion ist der Wert der URL Variablen gameId in der Variablen 
+      // params['gameId']) gespeichert und kann daher verwendet um das zur URL gehörige Spiel in 
+      // in der Database zu identifizieren.
+
+      // Mit firestore.collection('games') kann man auf die Datensammlung gespeichert unter
+      // dem Schüssel 'games' in der Cloud Firestore des verbundenen Firebase Projekts zugreifen.
+      // .valueChanges() gibt dann eine Observable (ählich wie ein Promise) zurück, das angibt 
+      // ob sich Werte in dieser Sammlung ändern. Mit subscribe kann man ähnlich wie bei Promises
+      // mit .then auf Änderungen reagieren, indem eine Callback Funktion aufgerufen wird, der als
+      // Argument die veränderte Elemente der Sammlung 'games' übergeben werden. 
+      // Nicht veränderte Schlüssel Werte Paare werden nicht erneut angezeigt. Das subscribe kommt
+      // aus dem ngRx Service.
+      this.firestore.collection('games')
+      .doc(params['gameId']) // Mit dieser Methode kann auf ein Element der Collection mit einem 
+      // bestimmten Schlüssel zugegriffen werden der als Argument übergeben wird.
+      .valueChanges()
+      .subscribe((game: any) => {
+        // Im Folgenden werden die Werte des lokalen Games aktualisiert, sobald sich die Werte des 
+        // zu der URL korrespondierenden Games in Firestore Database ändern:
+        this.game.currentPlayer = game.currentPlayer;
+        this.game.playedCards = game.playedCards;
+        this.game.players = game.players;
+        this.game.stack = game.stack;
+      });
+
     });
+
   }
 
   newGame() {
     this.game = new Game();
-    console.log(this.game);
+    
     
   }
 
