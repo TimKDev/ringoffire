@@ -6,6 +6,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width:1100px) {
+    overflow: hidden;
+  }
+
+
   img {
     height: 100vh;
   }
@@ -22,6 +27,9 @@
     width: 40vw;
     height: auto; // Der Wert auto passt die Höhe des Bildes so an, dass das Bild 
     // bei gegebener width nicht verzerrt wird.
+    @media (max-width:1100px) {
+      width: 400px;
+    }
     &:hover {
       filter: brightness(1.25); // Mit diesem CSS Filter kann die Helligkeit eines 
       // beliebigen Objekts verändert werden.
