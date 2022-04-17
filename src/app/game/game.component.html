@@ -36,10 +36,10 @@
     <!-- An der gleichen Position wie die oberste Karte, soll die umgedrehte Karte angezeigt werden, 
       sobald die Eigenschaft pickCardAnimation true ist. Die kann mit *ngIf gemacht werden: -->
     <img (click)="takeCard()"
-     *ngIf="pickCardAnimation"
+     *ngIf="game.pickCardAnimation"
      style="right: 30px;" 
      class="pick-card"
-     src="assets/img/cards/{{ currentCard }}.png" > <!-- Überall im normalem HTML Code kann die {{}} Syntax
+     src="assets/img/cards/{{ game.currentCard }}.png" > <!-- Überall im normalem HTML Code kann die {{}} Syntax
       verwendet werden, nur im Angularteil des HTML Code ist diese Syntax nicht möglich! -->
     
   </div>
@@ -54,7 +54,7 @@
 </button>
 
 <app-game-info class="pin-bottom"
- [card]="currentCard">
+ [card]="game.currentCard">
 </app-game-info>
 
 

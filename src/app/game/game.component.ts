@@ -12,9 +12,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class GameComponent implements OnInit {
 
-  pickCardAnimation = false;
-  currentCard: any = '';
+  
   game!: Game;
+  gameId!: string;
 
   // Der Service MatDialog wird für die eingebundenen Komponenten von Angular 
   // Material benötigt.
@@ -39,7 +39,7 @@ export class GameComponent implements OnInit {
       // Innerhalb dieser Callbackfunktion ist der Wert der URL Variablen gameId in der Variablen 
       // params['gameId']) gespeichert und kann daher verwendet um das zur URL gehörige Spiel in 
       // in der Database zu identifizieren.
-
+      this.gameId = params['gameId'];
       // Mit firestore.collection('games') kann man auf die Datensammlung gespeichert unter
       // dem Schüssel 'games' in der Cloud Firestore des verbundenen Firebase Projekts zugreifen.
       // .valueChanges() gibt dann eine Observable (ählich wie ein Promise) zurück, das angibt 
@@ -49,7 +49,7 @@ export class GameComponent implements OnInit {
       // Nicht veränderte Schlüssel Werte Paare werden nicht erneut angezeigt. Das subscribe kommt
       // aus dem ngRx Service.
       this.firestore.collection('games')
-      .doc(params['gameId']) // Mit dieser Methode kann auf ein Element der Collection mit einem 
+      .doc(this.gameId) // Mit dieser Methode kann auf ein Element der Collection mit einem 
       // bestimmten Schlüssel zugegriffen werden der als Argument übergeben wird.
       .valueChanges()
       .subscribe((game: any) => {
@@ -59,6 +59,8 @@ export class GameComponent implements OnInit {
         this.game.playedCards = game.playedCards;
         this.game.players = game.players;
         this.game.stack = game.stack;
+        this.game.currentCard = game.currentCard;
+        this.game.pickCardAnimation = game.pickCardAnimation;
       });
 
     });
@@ -72,17 +74,19 @@ export class GameComponent implements OnInit {
   }
 
   takeCard() {
-    if (this.pickCardAnimation) return;
-    this.currentCard = this.game.stack.pop();
-    this.pickCardAnimation = true;
+    if (this.game.pickCardAnimation) return;
+    this.game.currentCard = this.game.stack.pop();
+    this.game.pickCardAnimation = true;
     this.game.currentPlayer = (this.game.currentPlayer + 1)% this.game.players.length; 
+    this.saveGame();
     // Die Animation, soll für jede Karte abgespielt werden. Dies funktioniert 
     // natürlich nur flüssig, wenn man während der Zeit der Animation keine Karte 
     // ziehen darf:
     setTimeout(() => {
       // Asynchrone Events wie setTimeout() triggern auch Change Detection.
-      this.pickCardAnimation = false;
-      this.game.playedCards.push(this.currentCard);
+      this.game.pickCardAnimation = false;
+      this.game.playedCards.push(this.game.currentCard);
+      this.saveGame();
     }, 1500);
   }
 
@@ -94,9 +98,21 @@ export class GameComponent implements OnInit {
     // auch wirklich verstehen muss!
     const dialogRef = this.dialog.open(AddPlayerDialogComponent);
     
-    dialogRef.afterClosed().subscribe(name => {
+    dialogRef.afterClosed().subscribe((name: string) => {
       if(!name) return;
       this.game.players.push(name);
+      this.saveGame();
     });
+  }
+
+  /**
+   * Loads the current local game state up to the firestore cloud.
+   */
+  saveGame() {
+    this
+    .firestore
+    .collection('games')
+    .doc(this.gameId)
+    .update(this.game.toJSON());
   }
 }
