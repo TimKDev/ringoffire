@@ -83,7 +83,9 @@ export class GameComponent implements OnInit {
     if (this.game.pickCardAnimation) return;
     this.game.currentCard = this.game.stack.pop();
     this.game.pickCardAnimation = true;
-    this.game.currentPlayer = (this.game.currentPlayer + 1)% this.game.players.length; 
+    if (this.game.players.length > 0){
+      this.game.currentPlayer = (this.game.currentPlayer + 1)% this.game.players.length; 
+    }  
     this.saveGame();
     // Die Animation, soll für jede Karte abgespielt werden. Dies funktioniert 
     // natürlich nur flüssig, wenn man während der Zeit der Animation keine Karte 
