@@ -5,9 +5,13 @@
   background-color: rgba(169, 167, 167, 0.714);
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
+  overflow: hidden;
   span {
-    font-size: 32px;
+    font-size: 24px;
     margin-left: 16px;
+    text-overflow: ellipsis; // Erzeugt ... bei Overflow
+    white-space: nowrap; // Garantiert, dass alles in einer Zeile angezeigt wird
+    overflow: hidden;
   }
   img {
     width: 70px;

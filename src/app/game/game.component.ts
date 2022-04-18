@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddPlayerDialogComponent } from '../add-player-dialog/add-player-dialog.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 @Component({
   selector: 'app-game',
@@ -15,6 +16,7 @@ export class GameComponent implements OnInit {
   
   game!: Game;
   gameId!: string;
+  gameOver: boolean = false;
 
   // Der Service MatDialog wird für die eingebundenen Komponenten von Angular 
   // Material benötigt.
@@ -58,6 +60,7 @@ export class GameComponent implements OnInit {
         this.game.currentPlayer = game.currentPlayer;
         this.game.playedCards = game.playedCards;
         this.game.players = game.players;
+        this.game.player_images = game.player_images;
         this.game.stack = game.stack;
         this.game.currentCard = game.currentCard;
         this.game.pickCardAnimation = game.pickCardAnimation;
@@ -69,11 +72,13 @@ export class GameComponent implements OnInit {
 
   newGame() {
     this.game = new Game();
-    
-    
   }
 
   takeCard() {
+    if(this.game.stack.length == 0){
+      this.gameOver = true;
+      return;
+    }
     if (this.game.pickCardAnimation) return;
     this.game.currentCard = this.game.stack.pop();
     this.game.pickCardAnimation = true;
@@ -94,15 +99,35 @@ export class GameComponent implements OnInit {
   openDialog(): void {
     // Die Komponente die im Folgenden an open übergeben wird, wird im Dialogfenster
     // angezeigt, dass sich öffnet, sobald die openDialog Funktion ausgeführt wird. 
-    // Man sieht, dass man die Obejkte die man von Angular Material kopiert zum Teil 
+    // Man sieht, dass man die Objekte die man von Angular Material kopiert zum Teil 
     // auch wirklich verstehen muss!
     const dialogRef = this.dialog.open(AddPlayerDialogComponent);
     
     dialogRef.afterClosed().subscribe((name: string) => {
       if(!name) return;
       this.game.players.push(name);
+      this.game.player_images.push('1.webp');
       this.saveGame();
     });
+  }
+
+  editPlayer(playerId: number) {
+    const dialogRef = this.dialog.open(EditPlayerComponent);
+    dialogRef.afterClosed().subscribe((change: string) => {
+      if (!change) return;
+      if (change == 'DELETE'){
+        this.delete(playerId);
+        this.saveGame();
+        return;
+      } 
+      this.game.player_images[playerId] =  change;
+      this.saveGame();
+    });
+  }
+
+  delete(playerId: number): void {
+    this.game.players.splice(playerId, 1);
+    this.game.player_images.splice(playerId, 1);
   }
 
   /**

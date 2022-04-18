@@ -1,75 +1,86 @@
 <!-- Man kann den Koponenten Tags natürlich auch ganz normale Attribute übergeben:  -->
 <app-player *ngFor="let player of game.players; let i = index"
+ (click) = "editPlayer(i)"
  [playerActive]="i == game.currentPlayer"
  class="player-position hide-mobile"
- [ngStyle]="{'top.px': (i + 1)*90}"
- [name]="player">
+ [ngStyle]="{'top.px': (i + 1)*80}"
+ [name]="player"
+ [image]="game.player_images[i]">
 </app-player>
 
 <div class="scroll-container">
   <app-player-mobile *ngFor="let player of game.players; let i = index"
+  (click) = "editPlayer(i)"
   [playerActive]="i == game.currentPlayer"
   class="hide-desktop"
-  [name]="player">
+  [name]="player"
+  [image]="game.player_images[i]">
   </app-player-mobile>
 </div>
 
-<!-- class="player-position hide-desktop"
-  [ngStyle]="{'top.px': 0, 'left.px': (i + 1)*60}" -->
+<!-- Als nächstes wird das nächste Bild des Stacks vorgeladen, damit alles flüssiger läuft. Dies 
+funktioniert, da ein Bild nur beim ersten Mal langsam geladen, wird ein Bild mehrfach auf einer 
+Seite verwendet, müssen daher nur das erste Mal wenn das Bild verwendet wird komplett von vorne 
+geladen werden. Dies wird im Folgenden ausgenutzt, indem das jeweils nächste Bild unsichtbar 
+geladen wird, während der Zeit der Animation. => Nützlicher genereller Tipp für Performance! -->
+<img src="./assets/img/cards/{{ game.stack[game.stack.length - 1] }}.png" class="preloadImage">
 
-<div class="field">
-  <div class="card-stack">
-    <!-- Hier muss jetzt auch auf die Reihenfolge der Bilder geachtet werden, da sie übermalt 
-    werden, ähnlich wie im Canvas! -->
-    
-    <!-- Die folgende for-Schleife wird das img Tag 5 mal wiederholt, da das Array 5 Werte 
-    besitzt. c nimmt als Wert bei jeder Iteration den Wert des i-ten Array Elements an. Durch 
-    den Zusatz ; let i = index; wird i als der Iterator der for-Schleife definiert, d.h. i nimmt
-    die Werte 0,1,2,3,4 bei der Iteration an. Das Property Binding ngStyle wird verwendet, um 
-    inline CSS Styles mit dynamischen Werten für ein Tag zu definieren unter Benutzung der Syntax
-    siehe unten. Möchte man mehrere Stylings hinzufügen, kann man sie durch Komma getrennt 
-    nacheinander in die {} schreiben. Die Einheit einer einer CSS Eigenschaft wird hier durch 
-    .Einheit festgelegt und nicht dadurch, dass man sie an den dynamischen Wert hängt:     -->
-    <img *ngFor="let c of [1,2,3,4,5]; let i = index;"
-     [ngStyle]="{'right.px': i*6}" 
-     src="assets/img/cards/card_cover.png">
-    <!-- Die letzte Karte soll separat gestyled werden mit dem undynamischen Standard Inline
-    CSS. Zusätzlich bekommt sie eine Onklick Funktion, die das Attribut pickCardAnimation der 
-    Game Komponenten Instanz auf true setzt. -->
-    <img (click)="takeCard()"
-     style="right: 30px;" 
-     class="top-card"
-     src="assets/img/cards/card_cover.png" >
-    <!-- Zeige die gespielten Karten an: -->
-    <img *ngFor="let card of game.playedCards"
-     src="assets/img/cards/{{ card }}.png"
-     class="played-card">
-    <!-- An der gleichen Position wie die oberste Karte, soll die umgedrehte Karte angezeigt werden, 
-      sobald die Eigenschaft pickCardAnimation true ist. Die kann mit *ngIf gemacht werden: -->
-    <img (click)="takeCard()"
-     *ngIf="game.pickCardAnimation"
-     style="right: 30px;" 
-     class="pick-card"
-     src="assets/img/cards/{{ game.currentCard }}.png" > <!-- Überall im normalem HTML Code kann die {{}} Syntax
-      verwendet werden, nur im Angularteil des HTML Code ist diese Syntax nicht möglich! -->
-    
+<div *ngIf="!gameOver">
+  <div class="field">
+    <div class="card-stack">
+      <!-- Hier muss jetzt auch auf die Reihenfolge der Bilder geachtet werden, da sie übermalt 
+      werden, ähnlich wie im Canvas! -->
+      
+      <!-- Die folgende for-Schleife wird das img Tag 5 mal wiederholt, da das Array 5 Werte 
+      besitzt. c nimmt als Wert bei jeder Iteration den Wert des i-ten Array Elements an. Durch 
+      den Zusatz ; let i = index; wird i als der Iterator der for-Schleife definiert, d.h. i nimmt
+      die Werte 0,1,2,3,4 bei der Iteration an. Das Property Binding ngStyle wird verwendet, um 
+      inline CSS Styles mit dynamischen Werten für ein Tag zu definieren unter Benutzung der Syntax
+      siehe unten. Möchte man mehrere Stylings hinzufügen, kann man sie durch Komma getrennt 
+      nacheinander in die {} schreiben. Die Einheit einer einer CSS Eigenschaft wird hier durch 
+      .Einheit festgelegt und nicht dadurch, dass man sie an den dynamischen Wert hängt:     -->
+      <img *ngFor="let c of [1,2,3,4,5]; let i = index;"
+      [ngStyle]="{'right.px': i*6}" 
+      src="assets/img/cards/card_cover.png">
+      <!-- Die letzte Karte soll separat gestyled werden mit dem undynamischen Standard Inline
+      CSS. Zusätzlich bekommt sie eine Onklick Funktion, die das Attribut pickCardAnimation der 
+      Game Komponenten Instanz auf true setzt. -->
+      <img (click)="takeCard()"
+      style="right: 30px;" 
+      class="top-card"
+      src="assets/img/cards/card_cover.png" >
+      <!-- Zeige die gespielten Karten an: -->
+      <img *ngFor="let card of game.playedCards"
+      src="assets/img/cards/{{ card }}.png"
+      class="played-card">
+      <!-- An der gleichen Position wie die oberste Karte, soll die umgedrehte Karte angezeigt werden, 
+        sobald die Eigenschaft pickCardAnimation true ist. Die kann mit *ngIf gemacht werden: -->
+      <img (click)="takeCard()"
+      *ngIf="game.pickCardAnimation"
+      style="right: 30px;" 
+      class="pick-card"
+      src="assets/img/cards/{{ game.currentCard }}.png" > <!-- Überall im normalem HTML Code kann die {{}} Syntax
+        verwendet werden, nur im Angularteil des HTML Code ist diese Syntax nicht möglich! -->
+      
+    </div>
   </div>
+
+  <app-game-info class="pin-bottom"
+  [card]="game.currentCard">
+  </app-game-info>
+
+
+  <!-- Im folgenden wird eine Komponente von Angular Material verwendet: -->
+  <button mat-fab color="primary"
+  (click)="openDialog()"
+    class="button-add">
+    <mat-icon>add</mat-icon> <!-- Der Name add definiert welches Icon von Material Design dargestellt wird.
+    Um andere zu finden gehe auf https://materialdesignicons.com/-->
+  </button>
+
 </div>
 
-<app-game-info class="pin-bottom"
- [card]="game.currentCard">
-</app-game-info>
 
-
-<!-- Im folgenden wird eine Komponente von Angular Material verwendet: -->
-<button mat-fab color="primary"
- (click)="openDialog()"
-  class="button-add">
-  <mat-icon>add</mat-icon> <!-- Der Name add definiert welches Icon von Material Design dargestellt wird.
-  Um andere zu finden gehe auf https://materialdesignicons.com/-->
-</button>
-
-
-
-
-
+<div *ngIf="gameOver" class="gameOver">
+  <img src="/assets/img/gameOver.png">
+</div>

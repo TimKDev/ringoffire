@@ -99,7 +99,8 @@
 
 
 .scroll-container {
-  overflow-y: scroll;
+  overflow-x: auto;
+  overflow-y: hidden;
   position: absolute;
   left: 10px;
   right: 0;
@@ -108,11 +109,32 @@
   gap: 10px;
 }
 
+app-player, app-player-mobile {
+  cursor: pointer;
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
 
 
+.gameOver {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  img {
+    width: 50vw;
+    max-width: 600px;
+    object-fit: contain;
+  }
+}
 
 
-
+.preloadImage {
+  opacity: 0;
+  z-index: -999999;
+  position: absolute;
+}
 
 
 
