@@ -13,11 +13,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AddPlayerDialogComponent } from './add-player-dialog/add-player-dialog.component';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { GameInfoComponent } from './game-info/game-info.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 
 // Die folgenden beiden Imports sind notwendig, damit Firebase verwendet werden kann.
 // Für genaue Anleitung siehe https://github.com/angular/angularfire/blob/master/docs/install-and-setup.md
@@ -28,7 +28,6 @@ import { provideDatabase,getDatabase } from '@angular/fire/database';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
-import { ShareComponent } from './share/share.component';
 
 @NgModule({
   declarations: [
@@ -39,8 +38,7 @@ import { ShareComponent } from './share/share.component';
     AddPlayerDialogComponent,
     GameInfoComponent,
     PlayerMobileComponent,
-    EditPlayerComponent,
-    ShareComponent
+    EditPlayerComponent
   ],
   imports: [
     BrowserModule,
