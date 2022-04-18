@@ -5,6 +5,7 @@ import { AddPlayerDialogComponent } from '../add-player-dialog/add-player-dialog
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
+import { ShareComponent } from '../share/share.component';
 
 @Component({
   selector: 'app-game',
@@ -109,6 +110,10 @@ export class GameComponent implements OnInit {
       this.game.player_images.push('1.webp');
       this.saveGame();
     });
+  }
+
+  openDialogShare(): void {
+    this.dialog.open(ShareComponent);
   }
 
   editPlayer(playerId: number) {
