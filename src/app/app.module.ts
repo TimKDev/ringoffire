@@ -45,13 +45,14 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    // Die folgenden Imports werden für Angular Material verwendet:
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    // Der folgende Import ist notwendig, um Firebase verwenden zu können:
+    // Der folgenden Imports sind notwendig, um Firebase verwenden zu können:
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideDatabase(() => getDatabase()),
