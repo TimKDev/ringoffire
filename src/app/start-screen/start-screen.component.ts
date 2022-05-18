@@ -40,7 +40,7 @@ export class StartScreenComponent implements OnInit {
       // ist auch der zufällig generierte Schlüssel in dem Attribut id gespeichert und kann daher im folgenden 
       // verwendet werden, um den User zur entsperchenden URL weiter zu leiten: 
       this.router.navigateByUrl(`/game/${gameInfo.id}`); // Mit dieser Methode lässt sich die URL
-      // aud der sich der User gerade befindet verändern!
+      // auf der sich der User gerade befindet verändern!
 
 
     });
